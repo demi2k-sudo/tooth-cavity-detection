@@ -20,6 +20,7 @@ class UNet(nn.Module):
         
         self.out = nn.Conv2d(in_channels=64, out_channels=num_classes, kernel_size=1)
         
+        
     def forward(self, x):
         down_1, p1 = self.down_convolution_1(x)
         down_2, p2 = self.down_convolution_2(p1)
@@ -33,7 +34,8 @@ class UNet(nn.Module):
         up_3 = self.up_convolution_3(up_2, down_2)
         up_4 = self.up_convolution_4(up_3, down_1)
         
-        return self.out(up_4)
+        output = self.out(up_4)
+        return torch.sigmoid(output)
 
 # if __name__=="__main__":
 #     double_conv = DoubleConv(256,256)
